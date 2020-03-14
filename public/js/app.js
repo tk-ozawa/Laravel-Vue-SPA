@@ -1927,17 +1927,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   methods: {
     logout: function logout() {
       var _this = this;
 
-      axios.post('/api/logout').then(function (res) {
-        axios.defaults.headers.common['Authorization'] = '';
+      axios.post("/api/logout").then(function (res) {
+        axios.defaults.headers.common["Authorization"] = "";
         _this.$isLogin = false;
 
         _this.$router.push({
-          path: '/'
+          path: "/"
         }, function () {}); // v3.1.xからはコールバック関数必要
 
       });
@@ -1978,24 +1984,24 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isError: false,
-      email: '',
-      password: ''
+      email: "",
+      password: ""
     };
   },
   methods: {
     login: function login() {
       var _this = this;
 
-      axios.post('/api/login', {
+      axios.post("/api/login", {
         email: this.email,
         password: this.password
       }).then(function (res) {
         var token = res.data.access_token;
-        axios.defaults.headers.common['Authorization'] = "Bearer ".concat(token);
+        axios.defaults.headers.common["Authorization"] = "Bearer ".concat(token);
         _this.$isLogin = true;
 
         _this.$router.push({
-          path: '/'
+          path: "/"
         });
       })["catch"](function (err) {
         _this.isError = true;
@@ -2096,9 +2102,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       user: {
-        name: '',
-        email: '',
-        password: ''
+        name: "",
+        email: "",
+        password: ""
       }
     };
   },
@@ -2106,13 +2112,13 @@ __webpack_require__.r(__webpack_exports__);
     createUser: function createUser() {
       var _this = this;
 
-      axios.post('/api/user', {
+      axios.post("/api/user", {
         user: this.user
       }).then(function (res) {
         _this.user = res.data.user;
 
         _this.$router.push({
-          name: 'user'
+          name: "user"
         });
       })["catch"](function (err) {
         return console.log(err);
@@ -2147,13 +2153,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       id: this.$route.params.id,
-      user: ''
+      user: ""
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get('/api/user/' + this.id).then(function (response) {
+    axios.get("/api/user/" + this.id).then(function (response) {
       return _this.user = response.data.user;
     })["catch"](function (erorr) {
       return console.log(error);
@@ -2192,16 +2198,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       id: this.$route.params.id,
       user: {
-        id: '',
-        name: '',
-        email: ''
+        id: "",
+        name: "",
+        email: ""
       }
     };
   },
@@ -2215,7 +2219,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.user = res.data.user;
 
         _this.$router.push({
-          name: 'user_detail',
+          name: "user_detail",
           params: {
             id: _this.$route.params.id
           }
@@ -37669,7 +37673,7 @@ var render = function() {
         _vm.$isLogin
           ? _c("li", [
               _c("button", { on: { click: _vm.logout } }, [
-                _vm._v("\n            ログアウト\n          ")
+                _vm._v("ログアウト")
               ])
             ])
           : _vm._e(),
@@ -38088,9 +38092,7 @@ var render = function() {
     _c("div", [
       _c("h1", [_vm._v("ユーザー更新")]),
       _vm._v(" "),
-      _c("p", [
-        _vm._v("\n            User Id: " + _vm._s(_vm.user.id) + "\n        ")
-      ]),
+      _c("p", [_vm._v("User Id: " + _vm._s(_vm.user.id))]),
       _vm._v(" "),
       _c(
         "form",
@@ -53430,23 +53432,15 @@ var routes = [{
 }];
 var routeBeforeMiddlereware = function routeBeforeMiddlereware(globalData) {
   return function (to, from, next) {
-    // console.log($isLogin)
     // 認証が必要なページで未ログイン
-    console.log('beforeach', globalData.$data.$isLogin);
-
     if (to.matched.some(function (record) {
       return record.meta.requiresAuth;
-    })) {
-      console.log('to.matched.some', globalData.$data.$isLogin);
-
-      if (globalData.$data.$isLogin === false) {
-        // ログインページへ遷移
-        next({
-          path: '/login' // query: { redirect: to.fullPath }
-
-        });
-        return;
-      }
+    }) && globalData.$data.$isLogin === false) {
+      // ログインページへ遷移
+      next({
+        path: '/login'
+      });
+      return; // これが無いと疑似リダイレクト時認証ガードをすり抜けてしまう
     } // 任意のページへ遷移
 
 
