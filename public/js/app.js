@@ -2046,14 +2046,16 @@ __webpack_require__.r(__webpack_exports__);
       isError: false,
       user: {}
     };
-  } // created() {
-  //     axios.get('/api/me').then(res => {
-  //         this.user = res.data
-  //     }).catch(error => {
-  //         this.isError = true
-  //     })
-  // }
+  },
+  created: function created() {
+    var _this = this;
 
+    axios.get("/api/me").then(function (res) {
+      _this.user = res.data;
+    })["catch"](function (error) {
+      _this.isError = true;
+    });
+  }
 });
 
 /***/ }),
