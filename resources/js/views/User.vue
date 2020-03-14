@@ -1,44 +1,45 @@
 <template>
-    <div>
-        <h1>ユーザー一覧</h1>
-        <router-link class="btn btn-primary" :to="{ name: 'user_create'}">ユーザー追加</router-link>
-        <ul>
-            <li v-for="(user, index) in users" v-bind:key="user.id">
-                {{ user.name }}
-                <router-link class="btn btn-success" :to="{ name: 'user_detail', params: { id: user.id }}">詳細</router-link>
-                <router-link class="btn btn-primary" :to="{ name: 'user_edit', params: { id: user.id }}">更新</router-link>
-                <span class="btn btn-danger" @click="userDelete(index, user.id)">削除</span>
-            </li>
-        </ul>
-    </div>
+  <div>
+    <p v-show="isError">情報の取得に失敗しました。</p>
+    <h1>ユーザー情報</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <td>{{ user.id }}</td>
+      </tr>
+      <tr>
+        <th>ユーザー名</th>
+        <td>{{ user.name }}</td>
+      </tr>
+      <tr>
+        <th>メール</th>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <th>登録日</th>
+        <td>{{ user.created_at }}</td>
+      </tr>
+    </table>
+  </div>
 </template>
-
 
 <script>
 export default {
-    data() {
-        return{
-            users:[],
-        }
-    },
-    methods: {
-        userDelete(index, id) {
-            axios.delete(`/api/user/${id}`)
-                .then(res => {
-                    this.users.splice(index, 1)
-                })
-                .catch(error => console.log(error));
-        },
-    },
-    created() {
-        axios.get('/api/user')
-            .then(res =>{
-                this.users = res.data.users;
-            })
-            .catch(error => {
-                console.log(error)
-            });
-    },
-
-}
+  data() {
+    return {
+      isError: false,
+      user: {}
+    };
+  },
+  created() {
+    axios
+      .get("/api/me")
+      .then(res => {
+        this.user = res.data;
+      })
+      .catch(error => {
+        this.isError = true;
+      });
+  }
+};
 </script>
