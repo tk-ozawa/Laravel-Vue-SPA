@@ -14,14 +14,14 @@ export default {
   data() {
     return {
       id: this.$route.params.id,
-      user: ""
-    };
+      user: ''
+    }
   },
   created() {
     axios
-      .get("/api/user/" + this.id)
+      .get('/api/user/' + this.id)
       .then(response => (this.user = response.data.user))
-      .catch(erorr => console.log(error));
+      .catch(erorr => console.log(error))
   }
-};
+}
 </script>

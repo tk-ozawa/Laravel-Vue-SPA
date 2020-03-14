@@ -24,33 +24,33 @@ export default {
     return {
       id: this.$route.params.id,
       user: {
-        id: "",
-        name: "",
-        email: ""
+        id: '',
+        name: '',
+        email: ''
       }
-    };
+    }
   },
   methods: {
     updateUser() {
       axios
         .put(`/api/user/${this.user.id}`, { user: this.user })
         .then(res => {
-          this.user = res.data.user;
+          this.user = res.data.user
           this.$router.push({
-            name: "user_detail",
+            name: 'user_detail',
             params: {
               id: this.$route.params.id
             }
-          });
+          })
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
   },
   created() {
     axios
       .get(`/api/user/${this.id}`)
       .then(res => (this.user = res.data.user))
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
   }
-};
+}
 </script>

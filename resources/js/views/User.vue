@@ -29,17 +29,17 @@ export default {
     return {
       isError: false,
       user: {}
-    };
+    }
   },
   created() {
     axios
-      .get("/api/me")
+      .get('/api/me')
       .then(res => {
-        this.user = res.data;
+        this.user = res.data
       })
       .catch(error => {
-        this.isError = true;
-      });
+        this.isError = true
+      })
   }
-};
+}
 </script>

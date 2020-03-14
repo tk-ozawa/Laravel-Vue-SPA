@@ -11,7 +11,9 @@
         <input type="password" v-model="password" class="form-control" />
       </div>
       <button type="submit" class="btn btn-primary">ログイン</button>
-      <span v-show="isError" class="alert alert-warning">認証に失敗しました。</span>
+      <span v-show="isError" class="alert alert-warning"
+        >認証に失敗しました。</span
+      >
     </form>
   </div>
 </template>
@@ -21,30 +23,29 @@ export default {
   data() {
     return {
       isError: false,
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
     login() {
       axios
-        .post("/api/login", {
+        .post('/api/login', {
           email: this.email,
           password: this.password
         })
         .then(res => {
-          const token = res.data.access_token;
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          this.$isLogin = true;
-          this.$router.push({ path: "/" });
+          const token = res.data.access_token
+          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+          this.$isLogin = true
+          this.$router.push({ path: '/' })
         })
         .catch(err => {
-          this.isError = true;
-        });
+          this.isError = true
+        })
     }
   }
-};
+}
 </script>
 
-<style>
-</style>
+<style></style>

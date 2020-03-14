@@ -48,10 +48,10 @@ export const routeBeforeMiddlereware = globalData => {
   return (to, from, next) => {
     // 認証が必要なページで未ログイン
     if (to.matched.some(record => record.meta.requiresAuth) && globalData.$data.$isLogin === false) {
-      // ログインページへ遷移
       next({ path: '/login' })
       return; // これが無いと疑似リダイレクト時認証ガードをすり抜けてしまう
     }
+
     // 任意のページへ遷移
     next()
   }

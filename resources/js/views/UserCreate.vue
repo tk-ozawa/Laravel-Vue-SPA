@@ -26,24 +26,24 @@ export default {
   data() {
     return {
       user: {
-        name: "",
-        email: "",
-        password: ""
+        name: '',
+        email: '',
+        password: ''
       }
-    };
+    }
   },
   methods: {
     createUser() {
       axios
-        .post("/api/user", {
+        .post('/api/user', {
           user: this.user
         })
         .then(res => {
-          this.user = res.data.user;
-          this.$router.push({ name: "user" });
+          this.user = res.data.user
+          this.$router.push({ name: 'user' })
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
   }
-};
+}
 </script>

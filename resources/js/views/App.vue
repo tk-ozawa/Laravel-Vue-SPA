@@ -27,12 +27,12 @@
 export default {
   methods: {
     logout() {
-      axios.post("/api/logout").then(res => {
-        axios.defaults.headers.common["Authorization"] = "";
-        this.$isLogin = false;
-        this.$router.push({ path: "/" }, () => {}); // v3.1.xからはコールバック関数必要
-      });
+      axios.post('/api/logout').then(res => {
+        axios.defaults.headers.common['Authorization'] = ''
+        this.$isLogin = false
+        this.$router.push({ path: '/' }, () => {}) // v3.1.xからはコールバック関数必要
+      })
     }
   }
-};
+}
 </script>
