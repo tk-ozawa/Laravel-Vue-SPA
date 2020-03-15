@@ -3,7 +3,10 @@
     <h1>ログイン</h1>
     <form @submit.prevent="login">
       <div class="form-group">
-        <label for="email">メールアドレス</label>
+        <label for="email">
+          <v-fa icon="envelope" />
+          メールアドレス
+        </label>
         <input
           type="email"
           v-model="email"
@@ -13,31 +16,49 @@
         />
       </div>
       <div class="form-group">
-        <label for="password">パスワード</label>
+        <label for="password">
+          <v-fa icon="key" />
+          パスワード
+        </label>
         <input
+          v-if="!isDisplay"
           type="password"
           v-model="password"
           class="form-control"
-          v-if="!isDisplay"
           required
         />
         <input
+          v-else
           type="text"
           v-model="password"
           class="form-control"
-          v-else
           required
         />
-        <label for="passwordDisplay">パスワードを表示する</label>
-        <input type="checkbox" v-model="isDisplay" id="passwordDisplay" />
+        <div class="text-right">
+          <label for="passwordDisplay">
+            <v-fa icon="eye" />
+            パスワードを表示する
+          </label>
+          <input
+            type="checkbox"
+            v-model="isDisplay"
+            id="passwordDisplay"
+            tabindex="-1"
+          />
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">ログイン</button>
-      <label for="storeLoginState">ログイン状態を保持</label>
-      <input type="checkbox" v-model="storeLoginState" id="storeLoginState" />
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mr-2">ログイン</button>
+        <label for="storeLoginState">
+          <v-fa icon="save" />
+          ログイン状態を保持
+        </label>
+        <input type="checkbox" v-model="storeLoginState" id="storeLoginState" />
+        <span v-show="isError" class="alert alert-warning ml-2"
+          >認証に失敗しました。</span
+        >
+      </div>
     </form>
-    <span v-show="isError" class="alert alert-warning"
-      >認証に失敗しました。</span
-    >
   </div>
 </template>
 
