@@ -19,7 +19,9 @@
       <li>{{ $isLogin }}</li>
     </ul>
     <hr />
-    <router-view></router-view>
+    <div class="container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
