@@ -11,33 +11,34 @@ use Illuminate\Http\Request;
  */
 class AuthController extends Controller
 {
-    public function login () {
-        $credentials = request(['email', 'password']);
+	public function login()
+	{
+		$credentials = request(['email', 'password']);
 
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 4401);
-        }
+		if (!$token = auth('api')->attempt($credentials)) {
+			return response()->json(['error' => 'Unauthorized'], 401);
+		}
 
-        return $this->respondWithToken($token);
-    }
+		return $this->respondWithToken($token, request('storeLoginState') ? 60 : 1);
+	}
 
-    public function logout()
-    {
-        auth()->logout();
-        return response()->json(['message' => 'ログアウトしました。']);
-    }
+	public function logout()
+	{
+		auth()->logout();
+		return response()->json(['message' => 'ログアウトしました。']);
+	}
 
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
+	public function me()
+	{
+		return response()->json(auth()->user());
+	}
 
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
-    }
+	protected function respondWithToken($token, $time)
+	{
+		return response()->json([
+			'access_token' => $token,
+			'token_type' => 'bearer',
+			'expires_in' => auth('api')->factory()->getTTL() * $time
+		]);
+	}
 }

@@ -3,17 +3,61 @@
     <h1>ログイン</h1>
     <form @submit.prevent="login">
       <div class="form-group">
-        <label for="email">メールアドレス</label>
-        <input type="email" v-model="email" class="form-control" />
+        <label for="email">
+          <v-fa icon="envelope" />
+          メールアドレス
+        </label>
+        <input
+          type="email"
+          v-model="email"
+          name="email"
+          class="form-control"
+          required
+        />
       </div>
       <div class="form-group">
-        <label for="password">パスワード</label>
-        <input type="password" v-model="password" class="form-control" />
+        <label for="password">
+          <v-fa icon="key" />
+          パスワード
+        </label>
+        <input
+          v-if="!isDisplay"
+          type="password"
+          v-model="password"
+          class="form-control"
+          required
+        />
+        <input
+          v-else
+          type="text"
+          v-model="password"
+          class="form-control"
+          required
+        />
+        <div class="text-right">
+          <label for="passwordDisplay">
+            <v-fa icon="eye" />
+            パスワードを表示する
+          </label>
+          <input
+            type="checkbox"
+            v-model="isDisplay"
+            id="passwordDisplay"
+            tabindex="-1"
+          />
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary">ログイン</button>
-      <span v-show="isError" class="alert alert-warning"
-        >認証に失敗しました。</span
-      >
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary mr-2">ログイン</button>
+        <label for="storeLoginState">
+          <v-fa icon="save" />
+          ログイン状態を保持
+        </label>
+        <input type="checkbox" v-model="storeLoginState" id="storeLoginState" />
+        <span v-show="isError" class="alert alert-warning ml-2"
+          >認証に失敗しました。</span
+        >
+      </div>
     </form>
   </div>
 </template>
@@ -23,6 +67,8 @@ export default {
   data() {
     return {
       isError: false,
+      isDisplay: false,
+      storeLoginState: false,
       email: '',
       password: ''
     }
@@ -32,7 +78,8 @@ export default {
       axios
         .post('/api/login', {
           email: this.email,
-          password: this.password
+          password: this.password,
+          storeLoginState: this.storeLoginState
         })
         .then(res => {
           const token = res.data.access_token
@@ -42,6 +89,7 @@ export default {
         })
         .catch(err => {
           this.isError = true
+          console.error(err)
         })
     }
   }
