@@ -4,17 +4,40 @@
     <form @submit.prevent="login">
       <div class="form-group">
         <label for="email">メールアドレス</label>
-        <input type="email" v-model="email" class="form-control" />
+        <input
+          type="email"
+          v-model="email"
+          name="email"
+          class="form-control"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="password">パスワード</label>
-        <input type="password" v-model="password" class="form-control" />
+        <input
+          type="password"
+          v-model="password"
+          class="form-control"
+          v-if="!isDisplay"
+          required
+        />
+        <input
+          type="text"
+          v-model="password"
+          class="form-control"
+          v-else
+          required
+        />
+        <label for="passwordDisplay">パスワードを表示する</label>
+        <input type="checkbox" v-model="isDisplay" id="passwordDisplay" />
       </div>
       <button type="submit" class="btn btn-primary">ログイン</button>
-      <span v-show="isError" class="alert alert-warning"
-        >認証に失敗しました。</span
-      >
+      <label for="storeLoginState">ログイン状態を保持</label>
+      <input type="checkbox" v-model="storeLoginState" id="storeLoginState" />
     </form>
+    <span v-show="isError" class="alert alert-warning"
+      >認証に失敗しました。</span
+    >
   </div>
 </template>
 
@@ -23,6 +46,8 @@ export default {
   data() {
     return {
       isError: false,
+      isDisplay: false,
+      storeLoginState: false,
       email: '',
       password: ''
     }
@@ -32,7 +57,8 @@ export default {
       axios
         .post('/api/login', {
           email: this.email,
-          password: this.password
+          password: this.password,
+          storeLoginState: this.storeLoginState
         })
         .then(res => {
           const token = res.data.access_token
@@ -42,6 +68,7 @@ export default {
         })
         .catch(err => {
           this.isError = true
+          console.error(err)
         })
     }
   }
