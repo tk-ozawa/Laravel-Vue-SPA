@@ -10,7 +10,7 @@
       <li>
         <router-link to="/about">about</router-link>
       </li>
-      <li>
+      <li v-if="$isLogin">
         <router-link to="/user">ユーザー情報</router-link>
       </li>
       <li v-if="$isLogin">
